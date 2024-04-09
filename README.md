@@ -17,3 +17,8 @@
     - http 프로토콜에서 제공하는 함수(get, post, put, delete)
     - http://127.0.0.1:8000/member?id=abc1234&name=cherry -> 쿼리스트링(get 방식)
     - 숨겨야하는 정보들(post 방식)
+
+### 카카오 나에게 톡 보내기
+
+- 인증코드 URL(Base) : https://kauth.kakao.com/oauth/authorize?client_id={REST API 키}&redirect_uri={Redirect URI}&response_type=code&scope=talk_message
+- 인증 코드 URL(Me): https://kauth.kakao.com/oauth/authorize?client_id=1872018566f45c5add75690ea13d2d09&redirect_uri=http://127.0.0.1:8000&response_type=code&scope=talk_message
