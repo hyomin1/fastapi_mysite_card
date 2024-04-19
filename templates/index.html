@@ -12,6 +12,70 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', path="/css/animation.css")}}" />
   </head>
   <body>
+    <div class="top_btn fix_btn"><i class="fas fa-arrow-up"></i></div>
+    <div class="chatbot_btn fix_btn"><i class="fas fa-robot"></i></div>
+    <div class="chatbot_close_btn fix_btn" onclick="close_chatbot()"><i class="fas fa-times"></i></div>
+    <div class="kakao_btn fix_btn"><i class="fas fa-comment"></i></div>
+    <div class="kakao_close_btn fix_btn" onclick="close_kakao()"><i class="fas fa-times"></i></div>
+    
+    
+    <!-- KakaoTalk -->
+    <div class="window_wrap" id="kakao_wrap">
+        <div class="window_title">
+            <div >
+                <i class="fas fa-comment"></i>
+                <span>KAKAOTALK</span>
+            </div>
+            <div class="window_close_btn" id="kakao_window_close" onclick="close_kakao()"><i class="fas fa-times"></i></div>
+        </div>
+        <div class="kakao_box">
+            <div class="msg_box" id="kakao_msg_box">
+                <div class="kakao_msg_info">연락을 원하시면 언제든지 메세지를 보내주세요.</div>
+                <form id="kakao_form">
+                    <div class="kakao_input_area">
+                        <div class="kakao_input_box">
+                            <input type="text" name="kakao_name" class="kakao_input" id="kakao_name">
+                            <label for="kakao_name" class="kakao_input_label">NAME</label>
+                        </div>
+                        <div class="kakao_input_box">
+                            <input type="text" name="kakao_email" class="kakao_input" id="kakao_email">
+                            <label for="kakao_email" class="kakao_input_label">EMAIL</label>
+                        </div>
+                        <div class="kakao_input_box">
+                            <input type="text" name="kakao_message" class="kakao_input" id="kakao_message">
+                            <label for="kakao_message" class="kakao_input_label">MESSAGE</label>
+                        </div>
+                        <button type="button" id="send_kakao_btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.998 4c-5.387 0-9.753 3.443-9.753 7.69 0 2.746 1.826 5.158 4.572 6.516-.15.515-.96 3.314-.992 3.535 0 0-.02.165.087.227a.295.295 0 00.232.015c.308-.044 3.564-2.327 4.127-2.72.572.08 1.15.118 1.727.117 5.387 0 9.754-3.443 9.754-7.69S17.384 4 11.998 4z" fill="#000", fill-opacity=".9"></path>
+                            </svg>
+                            카카오톡 보내기
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="wrap">
       <!-- 명함 -->
       <div class="common_box card_box">
@@ -167,4 +231,6 @@
       </div>
     </div>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static', path='/js/fnc.js')}}"></script>
 </html>
