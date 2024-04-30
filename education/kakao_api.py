@@ -22,11 +22,6 @@ data = {
 
 
 
-
-
-
-
-
 # 3. 토큰 이용해서 나에게 톡 보내기
 access_token="QXpYKu4YYJsrhkaKNET-P42WD8ip7T6IPVEKPXSZAAABjuTq3qfdCc_9be4aqQ"
 msg_url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"

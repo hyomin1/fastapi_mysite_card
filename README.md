@@ -1,3 +1,5 @@
+> pip install -r requirements.txt
+
 # fastapi_mysite_card
 
 ### 라이브러리 설명
@@ -17,6 +19,24 @@
     - http 프로토콜에서 제공하는 함수(get, post, put, delete)
     - http://127.0.0.1:8000/member?id=abc1234&name=cherry -> 쿼리스트링(get 방식)
     - 숨겨야하는 정보들(post 방식)
+
+### 2. DAO and DTO(VO)
+
+- DAO(Data Access Object): CRUD 할 때 사용
+  - Create: INSERT
+  - Read: SELECT
+  - Update: UPDATE
+  - Delete: DELETE
+- DTO(Data Transfer Object): 데이터를 전달할 때 사용
+
+### 3. 유효성(Validation) 체크
+
+- 유효성체크는 사용자의 값이 올바른 값인지 체크
+  - 예: 이메일(이메일 형식인지)
+- 역사
+  1.  유효성체크: 서버 -> 과부하
+  2.             클라이언트(웹브라우저) -> JS (사용중)
+  3.             서버 추가 -> 더블 체크(pydantic)
 
 ### 카카오 나에게 톡 보내기
 
