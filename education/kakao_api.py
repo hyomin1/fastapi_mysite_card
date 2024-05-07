@@ -19,6 +19,9 @@ data = {
     "redirect_uri" :"http://127.0.0.1:8000",  
     "code":"gRPQbvOAP-E-WyZRo7j8DPiw-Mz6WA_0QMC3U33IiaTmwIfgpRPE9du3_g4KKiVOAAABjuTooFEtjdRiIM79qQ",
 }
+#response = requests.post(url,data=data)
+#tokens = response.json() # 최초 토큰 발급 받기
+#print(tokens)
 
 
 

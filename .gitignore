@@ -121,6 +121,7 @@ celerybeat.pid
 
 # Environments
 .env
+kakao_code.json
 .venv
 env/
 venv/
