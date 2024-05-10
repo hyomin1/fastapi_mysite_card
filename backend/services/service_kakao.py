@@ -71,6 +71,7 @@ class KakaoService:
 
     # 나에게 카카오톡 보내기
     def send_message(self, msg:MessageDTO):
+        
         # 1. 토큰 유무 체크
         # ./kakao_code.json -> Access_token, Refresh_token 저장
         if os.path.isfile("./kakao_code.json"):
@@ -85,8 +86,29 @@ class KakaoService:
             #       kakao.code_json에 저장
             
             tokens = self.get_first_token()
-
+            
         # 2. Access Token을 사용해서 나에게 카카오톡 보내기
+        # kakao_code.json 유무와 상관없이 토큰(Access, Refresh)
+        msg_url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
+        headers = {
+        "Authorization" : "Bearer " + tokens["access_token"]
+        }
+        msg_data = {
+            "template_object": json.dumps({
+            "object_type": "text",
+            "text":f"이름: {msg.name} \n메일: {msg.email} \n메세지: {msg.message}",
+            "link":{"mobile_web_url":"http://127.0.0.1:8000"}
+            })
+}
+        response = requests.post(msg_url, headers=headers, data=msg_data)
+
+        if response.json().get("result_code") == 0:
+            print("메세지를 성공적으로 보냈습니다.")
+        else:
+            print("메세지를 보내는데 실패했습니다. Error: " + str(response.json()))
+
+
+        
 
         # 3. DB에 저장
 
