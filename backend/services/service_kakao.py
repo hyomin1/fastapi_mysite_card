@@ -1,5 +1,7 @@
 from dotenv import load_dotenv, find_dotenv
 from backend.schemas.message import MessageDTO
+from backend.crud.crud_message import create_message
+from sqlalchemy.orm import Session
 import os
 import requests
 import json
@@ -70,7 +72,7 @@ class KakaoService:
         
 
     # 나에게 카카오톡 보내기
-    def send_message(self, msg:MessageDTO):
+    def send_message(self, msg:MessageDTO, db: Session):
         
         # 1. 토큰 유무 체크
         # ./kakao_code.json -> Access_token, Refresh_token 저장
@@ -108,9 +110,9 @@ class KakaoService:
             print("메세지를 보내는데 실패했습니다. Error: " + str(response.json()))
 
 
-        
 
-        # 3. DB에 저장
+        # 3. DB에 저장(사용자의 메시지)
+        create_message(msg, db)
 
         # +. 스케줄러 등록(Refresh Token 재발급)
         #  - Refresh Token은 유효기간 2달
