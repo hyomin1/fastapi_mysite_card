@@ -60,6 +60,34 @@
         </div>
     </div>
 
+    <!-- ChatBot -->
+    <div class="window_wrap" id="chatbot_wrap">
+      <div class="window_title">
+          <div>
+              <i class="fas fa-robot"></i>
+              <span>CHATBOT</span>
+          </div>
+          <div class="window_close_btn" id="chatbot_window_close" onclick="close_chatbot()"><i class="fas fa-times"></i></div>
+      </div>
+      <div class="chatbot_box">
+          <div class="msg_box">
+              <div class="chat_msg_box">
+                  <div class="chat_msg_box_left">
+                      <i class="fas fa-robot"></i>
+                  </div>
+                  <div class="chat_msg_box_right">
+                      <span class="chat_msg_date"></span>
+                      <span class="chat_msg_info">Hello, I'm Cholong. 무엇이든 물어보세요. </span>
+                  </div>
+              </div>    
+          </div>
+          <div class="msg_input">
+              <input id="send_chat_input" type="text" onkeypress="enter_keypress(event)"></input>
+              <button id="send_chat_btn" type="button"><i class="fas fa-paper-plane"></i></button>
+          </div>
+      </div>
+  </div>
+
 
 
 

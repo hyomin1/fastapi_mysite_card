@@ -26,4 +26,4 @@ if __name__  == "__main__":
     sched.add_job(KakaoService().refresh_access_token,"cron",day="1",hour="0",id="refresh_token")
     sched.start()
     # 웹서버 동작
-    uvicorn.run("main:app",host="0.0.0.0",port=5000)
+    uvicorn.run("main:app",host="127.0.0.1",port=8000)

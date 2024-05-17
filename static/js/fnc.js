@@ -93,3 +93,183 @@ $(document).ready(function () {
     $("html, body").animate({ scrollTop: 0 }, 800);
   });
 });
+
+// 챗봇(ChatGPT) 메시지 주고받기
+
+/** EVENT **/
+
+document.querySelector(".chatbot_btn").addEventListener("click", function () {
+  $(this).css("display", "none");
+
+  $("#kakao_wrap").css("display", "none");
+
+  $(".kakao_btn").css("display", "flex");
+
+  $(".kakao_close_btn").css("display", "none");
+
+  $("#chatbot_wrap").css("display", "block");
+
+  $(".chatbot_close_btn").css("display", "flex");
+
+  let today = new Date();
+
+  var options = { hour: "numeric", minute: "numeric" };
+
+  now_time = today.toLocaleTimeString("ko-KR", options);
+
+  document.querySelector(".chat_msg_date").innerHTML = now_time;
+});
+
+function close_chatbot() {
+  document.querySelector("#chatbot_wrap").style.display = "none";
+
+  document.querySelector(".chatbot_close_btn").style.display = "none";
+
+  document.querySelector(".chatbot_btn").style.display = "flex";
+}
+
+/** FUNCTION **/
+
+function view_human(txt) {
+  // 사용자 메세지 챗 디자인
+
+  let today = new Date();
+
+  var options = { hour: "numeric", minute: "numeric" };
+
+  msg = ` 
+
+          <div class="human_msg_box"> 
+
+              <div class="chat_msg_box_right">
+
+                  <span class="chat_msg_date">${today.toLocaleTimeString(
+                    "ko-KR",
+                    options
+                  )}</span>
+
+                  <span class="chat_msg_info">${txt}</span> 
+
+              <div> 
+
+          </div> 
+
+      `;
+
+  return msg;
+}
+
+document.querySelector("#send_chat_btn").onclick = function () {
+  var txt = document.querySelector("#send_chat_input").value;
+
+  if (txt.length != 0 || txt != "") {
+    send_chat_server(txt);
+  } else {
+    console.log("메세지를 입력해주세요.");
+  }
+};
+
+function enter_keypress(e) {
+  var txt = document.querySelector("#send_chat_input").value;
+
+  if (txt.length != 0 || txt != "") {
+    var code = e.code;
+
+    if (code == "Enter") {
+      send_chat_server(txt);
+    }
+  } else {
+    console.log("메세지를 입력해주세요.");
+  }
+}
+
+// 챗봇 메세지 디자인
+
+function view_chatbot(answer) {
+  let today = new Date();
+
+  var options = { hour: "numeric", minute: "numeric" };
+
+  msg = `
+
+      <div class="chat_msg_box">
+
+          <div class="chat_msg_box_left">
+
+              <i class="fas fa-robot"></i>
+
+          </div>
+
+          <div class="chat_msg_box_right">
+
+              <span class="chat_msg_date">${today.toLocaleTimeString(
+                "ko-KR",
+                options
+              )}</span>
+
+              <span class="chat_msg_info">${answer} </span>
+
+          </div>
+
+      </div>
+
+  `;
+
+  return msg;
+}
+
+function moveScroll() {
+  const chat_box = document.querySelector(".msg_box");
+
+  console.log("top: " + chat_box.scrollTop);
+
+  console.log("height: " + chat_box.scrollHeight);
+
+  if (chat_box.scrollHeight > 0) chat_box.scrollTop = chat_box.scrollHeight;
+}
+
+function send_chat_server(txt) {
+  document.querySelector("#send_chat_input").value = "";
+
+  // 사용자 챗(질문) 출력
+
+  const chat_box = document.querySelector(".msg_box");
+
+  const nowScrollY = chat_box.scrollTop;
+
+  chat_box.insertAdjacentHTML("beforeend", view_human(txt));
+
+  moveScroll();
+
+  // 챗봇 챗(답변) 출력
+
+  console.log(txt);
+
+  if (txt.length > 0 || txt != "") {
+    $.ajax({
+      url: "/chat/",
+
+      data: JSON.stringify({ question: txt }),
+
+      type: "POST",
+
+      contentType: "application/json; charset=UTF-8",
+
+      dataType: "json",
+
+      success: function (data) {
+        console.log(data["answer"]);
+
+        chat_box.insertAdjacentHTML("beforeend", view_chatbot(data["answer"]));
+
+        moveScroll();
+      },
+
+      error: function (data) {
+        console.log(data);
+      },
+    });
+  } else {
+    console.log("문자열을 입력해주세요.");
+  }
+}
