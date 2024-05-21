@@ -6,3 +6,6 @@ python-dotenv
 sqlalchemy
 pymysql
 apscheduler
+langchain
+langchain_openai
+langchain_community
