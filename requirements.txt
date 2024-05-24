@@ -9,3 +9,5 @@ apscheduler
 langchain
 langchain_openai
 langchain_community
+pypdf
+chromadb

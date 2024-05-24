@@ -121,6 +121,7 @@ celerybeat.pid
 
 # Environments
 .env
+llm/
 kakao_code.json
 .venv
 env/
