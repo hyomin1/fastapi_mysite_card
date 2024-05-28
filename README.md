@@ -109,3 +109,70 @@ RAG 방법
    - 사용자 질문과 Vector DB에 있는 값들간의 유사도를 계산해서 비슷한 내용을 추출
    - 추출한 내용과 사용자 질문을 함께 LLM모델에 전달
    - LLM 모델이 Vector DB(질문과 유사한 값)에 있는 값을 활용해서 답변을 생성
+
+### 서비스 배포
+
+- AWS Lightsail(월 7달러) / RAM 1GB 이상
+
+1. Lightsail : 인스턴스 생성(Linux / Ubuntu 22.04 LTS)
+2. Lightsail : 고정IP 생성
+3. Lightsail : Port 오픈(8000, 443, 3306)
+   http https db
+4. Windows 터미널: Lightsail 원격 접속 SSH 설정
+5. GitHub: Token 생성
+6. Lightsail: Github repository clone(Token 필요)
+7. Windows 터미널: SCP를 사용해서 파일 전송(.env, kakao_code.json, resume.pdf)
+8. Lightsail: Docker 및 Docker-compose 설치
+9. Lightsail: Dockerfile, docker-compose 파일 작성
+10. Lightsail: docker build를 통해서 이미지 생성(mysite)
+11. Lightsail: docker-compose 서비스 시작
+12. Lightsail: Nginx(리버스 프록시)
+
+- 기본 설정(client -> uvicorn(mysite))
+- 프록시 설정(client -> Nginx -> uvicorn(mysite))
+
+13. Lightsail: Gunicorn 설정
+
+- Uvicorn(ASGI): 비동기 서버 게이트웨이 인터페이스, 스레드 1개
+- Gunicorn(WSGI): 웹 서버 게이트웨이 인터페이스(다수의 네트워크 통신 가능)
+- Gunicorn설정(with Uvicorn) = windows 사용 불가
+
+14. 가비아: 도메인 구매 및 도메인 연결
+
+- 도메인 구매(www.mysite.com) -> AWS Lightsail 고정IP로 설정
+
+15. Lightsail: HTTPS(SSL) 적용(웹 네트워크 암호화) -> Nginx 설정
+
+- HTTPS 암호화 코드(CERTBOT 무료)
+- 4개월만 사용, 4개월 후에는 refresh(스케줄링: 매월 1일 refresh)
+
+### 도커 컨테이너
+
+- "내 컴퓨터에서는 되는데 왜 니 컴퓨터에서는 안돼지?"
+- "개발 환경이 바뀌면 기존에 잘 동작하던 코드(서비스)도 비정상 오류가 발생"
+- -> 컨테이너 단위로 만들어서 그 안에서 개발한 서비스를 동작시키자
+- 생성된 컨테이너는 어디서든지 도커만 있으면 똑같이 동작
+- 컨테이터를 사용하게 되면 컨테이너별로 독립적으로 사용
+
+- ex) 컨테이너1(mysite), 도커 이미지 생성 필요
+  컨테이너2(mariadb), 도커 허브에 이미지 존재
+  컨테이너3(nginx), 도커 허브에 이미지 존재
+  컨테이너4(CERTBOT), 도커 허브에 이미지 존재
+- 컨테이너를 생성하기 위해서는 도커 이미지 필요
+- 도커 이미지(설계 도면)
+- JAVA: Class(설계 도면) -> 객체 생성 -> 인스턴스
+- DOCKER: 도커 이미지 -> 컨테이너 생성 -> 컨테이너
+- 도커 이미지 : Dockerfile과 Build 명령어를 사용하면 이미지 생성 가능
+- 도커 허브: 다양한 도커 이미지가 존재(mysql, mariadb, mongodb 등등 존재)
+
+#### 도커 실행과정
+
+1. RUN 명령어로 Docker 실행
+
+- 로컬에서 이미지 찾기(있으면 실행)
+- 로컬에 이미지가 없으면 도커 허브로 가서 검색 및 다운로드
+- 이미지로 컨테이너 생성 및 실행
+
+#### 도커 컴포우즈
+
+- 도커 컨테이너를 프로젝트 단위로 묶어서 사용함으로써 관리 및 유지보수가 편리하게 해줌
