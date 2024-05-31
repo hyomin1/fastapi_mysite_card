@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  fastapi:
+    build: .
+    image: mysite:latest
+    container_name: mysite
+    ports:
+      - "8000:8000"
+    networks:
+      - mysite_network
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mariadb
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    env_file: .env
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      TZ: Asia/Seoul
+    command:
+      [
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+      ]
+    volumes:
+      - ./database/data:/var/lib/mysql
+      - ./backend/db/initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - mysite_network
+    restart: always
+
+networks:
+  mysite_network:

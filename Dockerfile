@@ -10,4 +10,4 @@ EXPOSE 8000
 
 COPY ./ /app/
 
-CMD 
+CMD ["python","main.py"]
