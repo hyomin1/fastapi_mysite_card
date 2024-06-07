@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY requirements.txt /app/requirements.txt
 
-RUN pip install --upgrade && pip install -r /app/requirements.txt
+RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 
 EXPOSE 8000
 
-COPY ./ /app/
+COPY ./ /app
 
-CMD ["python","main.py"]
+CMD [ "python", "main.py" ]

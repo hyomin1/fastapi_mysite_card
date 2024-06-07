@@ -1,6 +1,18 @@
 version: "3"
 
 services:
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+      - fastapi
+    networks:
+      - mysite_network
+    restart: unless-stopped
+  
   fastapi:
     build: .
     image: mysite:latest
@@ -11,8 +23,10 @@ services:
       - mysite_network
     depends_on:
       - db
+    command: gunicorn  --bind 0.0.0.0:8000 main:app --worker-class uvicorn.workers.UvicornWorker
     restart: always
-
+    
+      
   db:
     image: mariadb
     container_name: mariadb
@@ -20,15 +34,15 @@ services:
       - "3306:3306"
     env_file: .env
     environment:
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MARIADB_USER: ${MARIADB_USER}
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_DATABASE :       ${MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD :  ${MARIADB_ROOT_PASSWORD}
+      MARIADB_USER :           ${MARIADB_USER}
+      MARIADB_PASSWORD :       ${MARIADB_PASSWORD}
       TZ: Asia/Seoul
-    command:
+    command :
       [
-        "--character-set-server=utf8mb4",
-        "--collation-server=utf8mb4_unicode_ci",
+          "--character-set-server=utf8mb4",
+          "--collation-server=utf8mb4_unicode_ci",
       ]
     volumes:
       - ./database/data:/var/lib/mysql
@@ -36,6 +50,6 @@ services:
     networks:
       - mysite_network
     restart: always
-
+  
 networks:
   mysite_network:
